@@ -1,0 +1,1963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMS Crafted Hub, Amina Muhammad Sani</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #090909;
+  --bg2: #111111;
+  --bg3: #181818;
+  --gold: #C9A96E;
+  --gold-light: #E2C99A;
+  --gold-dim: rgba(201,169,110,0.15);
+  --white: #F5F0E8;
+  --white-dim: rgba(245,240,232,0.55);
+  --white-muted: rgba(245,240,232,0.3);
+  --border: rgba(201,169,110,0.18);
+  --border-subtle: rgba(255,255,255,0.06);
+  --font-display: 'Cormorant Garamond', serif;
+  --font-title: 'Cinzel', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --radius: 2px;
+  --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scroll progress bar */
+#scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  z-index: 9999;
+  transition: width 0.1s linear;
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+}
+.section-label {
+  font-family: var(--font-title);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 1rem;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+.section-title em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+section {
+  padding: 7rem 0;
+}
+.divider {
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+  margin: 1.5rem 0;
+  opacity: 0.7;
+}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+#navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 1.4rem 0;
+  transition: var(--transition);
+}
+#navbar.scrolled {
+  background: rgba(9,9,9,0.96);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 1rem 0;
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-brand {
+  font-family: var(--font-title);
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  text-decoration: none;
+}
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--font-title);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--white-dim);
+  text-decoration: none;
+  transition: color 0.3s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: width 0.3s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--gold); }
+.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--gold);
+  transition: var(--transition);
+}
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+
+/* Mobile menu */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(9,9,9,0.98);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.mobile-menu.open {
+  display: flex;
+  opacity: 1;
+  pointer-events: all;
+}
+.mobile-menu a {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-style: italic;
+  color: var(--white);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.mobile-menu a:hover { color: var(--gold); }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  top: -100px; right: -150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,169,110,0.06) 0%, transparent 70%);
+  animation: float 12s ease-in-out infinite;
+}
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  width: 400px; height: 400px;
+  bottom: -100px; left: 10%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,169,110,0.04) 0%, transparent 70%);
+  animation: float 16s ease-in-out infinite reverse;
+}
+/* Subtle grid texture */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(201,169,110,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,169,110,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-30px) rotate(5deg); }
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+.hero-content { padding-top: 5rem; }
+.hero-eyebrow {
+  font-family: var(--font-title);
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.3s forwards;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 30px; height: 1px;
+  background: var(--gold);
+  opacity: 0.6;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 7vw, 6.5rem);
+  font-weight: 300;
+  line-height: 1.0;
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.5s forwards;
+}
+.hero-title span {
+  display: block;
+  font-style: italic;
+  color: var(--gold-light);
+}
+.hero-subtitle {
+  font-family: var(--font-title);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--white-dim);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.7s forwards;
+}
+.hero-name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--white-dim);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.85s forwards;
+}
+.hero-intro {
+  max-width: 500px;
+  font-size: 0.95rem;
+  color: var(--white-muted);
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 1s forwards;
+}
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.8s 1.15s forwards;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  font-family: var(--font-title);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary {
+  background: var(--gold);
+  color: var(--bg);
+}
+.btn-primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--white);
+  border: 1px solid var(--border);
+}
+.btn-outline:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+
+/* Hero visual */
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5rem;
+  opacity: 0;
+  animation: fadeIn 1.2s 1.2s forwards;
+}
+.hero-portrait {
+  position: relative;
+  width: 320px; height: 380px;
+}
+.portrait-frame {
+  width: 100%; height: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.portrait-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(201,169,110,0.08) 0%, transparent 60%);
+}
+.portrait-placeholder {
+  width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.portrait-icon {
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: var(--gold-dim);
+}
+.portrait-placeholder p {
+  font-family: var(--font-title);
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  color: var(--white-muted);
+  text-transform: uppercase;
+}
+.portrait-deco {
+  position: absolute;
+  bottom: -15px; right: -15px;
+  width: 80px; height: 80px;
+  border: 1px solid var(--gold);
+  opacity: 0.4;
+}
+.portrait-deco2 {
+  position: absolute;
+  top: -15px; left: -15px;
+  width: 50px; height: 50px;
+  border: 1px solid var(--gold);
+  opacity: 0.25;
+}
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  animation: fadeIn 1s 2s forwards;
+}
+.hero-scroll-hint span {
+  font-family: var(--font-title);
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  color: var(--white-muted);
+  text-transform: uppercase;
+}
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.6; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.2); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ============================================================
+   ABOUT
+   ============================================================ */
+#about { background: var(--bg); }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+.about-text p {
+  font-size: 1rem;
+  color: var(--white-dim);
+  line-height: 1.85;
+  margin-bottom: 1.2rem;
+}
+.about-text p strong {
+  color: var(--gold-light);
+  font-weight: 500;
+}
+.about-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.about-card {
+  background: var(--bg3);
+  border: 1px solid var(--border-subtle);
+  padding: 1.8rem;
+  position: relative;
+  transition: border-color 0.3s;
+}
+.about-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 2px; height: 100%;
+  background: var(--gold);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.about-card:hover { border-color: var(--border); }
+.about-card:hover::before { opacity: 1; }
+.about-card-icon {
+  font-size: 1.1rem;
+  color: var(--gold);
+  margin-bottom: 0.8rem;
+}
+.about-card h4 {
+  font-family: var(--font-title);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+}
+.about-card p {
+  font-size: 0.9rem;
+  color: var(--white-muted);
+  line-height: 1.7;
+}
+
+/* ============================================================
+   EDUCATION
+   ============================================================ */
+#education { background: var(--bg2); }
+.edu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+.edu-card {
+  background: var(--bg);
+  border: 1px solid var(--border-subtle);
+  padding: 2rem;
+  position: relative;
+  transition: var(--transition);
+  overflow: hidden;
+}
+.edu-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: width 0.4s;
+}
+.edu-card:hover { border-color: var(--border); transform: translateY(-4px); }
+.edu-card:hover::after { width: 100%; }
+.edu-card-year {
+  font-family: var(--font-title);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  margin-bottom: 0.8rem;
+  display: block;
+}
+.edu-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+.edu-card p {
+  font-size: 0.85rem;
+  color: var(--white-muted);
+}
+.edu-card-type {
+  position: absolute;
+  top: 1.5rem; right: 1.5rem;
+  font-size: 1.2rem;
+  color: var(--gold);
+  opacity: 0.5;
+}
+
+/* ============================================================
+   SKILLS
+   ============================================================ */
+#skills { background: var(--bg); }
+.skills-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin-top: 3rem;
+}
+.skills-group-title {
+  font-family: var(--font-title);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.skill-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+.skill-chip {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--border-subtle);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--white-dim);
+  background: var(--bg3);
+  transition: var(--transition);
+  cursor: default;
+  letter-spacing: 0.02em;
+}
+.skill-chip:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-dim);
+  transform: translateY(-2px);
+}
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 1rem;
+  margin-top: 3rem;
+}
+.tool-card {
+  background: var(--bg3);
+  border: 1px solid var(--border-subtle);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: center;
+  transition: var(--transition);
+  cursor: default;
+}
+.tool-card:hover {
+  border-color: var(--border);
+  transform: translateY(-3px);
+}
+.tool-card i {
+  font-size: 1.5rem;
+  color: var(--gold);
+}
+.tool-card span {
+  font-family: var(--font-title);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--white-muted);
+}
+
+/* ============================================================
+   PORTFOLIO
+   ============================================================ */
+#portfolio { background: var(--bg2); }
+.portfolio-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 2.5rem 0;
+}
+.filter-btn {
+  padding: 0.5rem 1.2rem;
+  font-family: var(--font-title);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--white-muted);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.filter-btn:hover, .filter-btn.active {
+  background: var(--gold-dim);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.portfolio-card {
+  background: var(--bg);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.portfolio-card.hidden {
+  display: none;
+}
+.portfolio-card:hover { border-color: var(--border); transform: translateY(-5px); }
+.portfolio-thumb {
+  height: 200px;
+  background: var(--bg3);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.portfolio-thumb-inner {
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: rgba(201,169,110,0.15);
+  transition: transform 0.5s, color 0.3s;
+  position: relative;
+}
+.portfolio-card:hover .portfolio-thumb-inner {
+  transform: scale(1.05);
+  color: rgba(201,169,110,0.3);
+}
+.portfolio-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(9,9,9,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+.portfolio-card:hover .portfolio-overlay { opacity: 1; }
+.portfolio-overlay span {
+  font-family: var(--font-title);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-transform: uppercase;
+  border: 1px solid var(--gold);
+  padding: 0.5rem 1rem;
+}
+.portfolio-info {
+  padding: 1.4rem;
+}
+.portfolio-tag {
+  font-family: var(--font-title);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.portfolio-info h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin-bottom: 0.4rem;
+}
+.portfolio-info p {
+  font-size: 0.82rem;
+  color: var(--white-muted);
+  line-height: 1.6;
+}
+
+/* ============================================================
+   EXPERIENCE
+   ============================================================ */
+#experience { background: var(--bg); }
+.exp-timeline {
+  position: relative;
+  padding-left: 3rem;
+  margin-top: 3rem;
+}
+.exp-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  opacity: 0.4;
+}
+.exp-item {
+  position: relative;
+  padding-bottom: 3rem;
+}
+.exp-item::before {
+  content: '';
+  position: absolute;
+  left: -3rem;
+  top: 6px;
+  width: 7px; height: 7px;
+  background: var(--gold);
+  border-radius: 50%;
+  margin-left: -3px;
+  box-shadow: 0 0 12px rgba(201,169,110,0.4);
+}
+.exp-date {
+  font-family: var(--font-title);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+.exp-item h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 0.3rem;
+}
+.exp-org {
+  font-size: 0.85rem;
+  color: var(--white-muted);
+  margin-bottom: 0.8rem;
+  font-style: italic;
+}
+.exp-item p {
+  font-size: 0.9rem;
+  color: var(--white-muted);
+  line-height: 1.75;
+  max-width: 600px;
+}
+
+/* ============================================================
+   SERVICES
+   ============================================================ */
+#services { background: var(--bg2); }
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+.service-card {
+  background: var(--bg);
+  border: 1px solid var(--border-subtle);
+  padding: 2.2rem;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform 0.4s;
+}
+.service-card:hover { transform: translateY(-4px); border-color: var(--border); }
+.service-card:hover::before { transform: scaleX(1); }
+.service-num {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 300;
+  color: rgba(201,169,110,0.12);
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+.service-card i {
+  font-size: 1.4rem;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+.service-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-bottom: 0.8rem;
+}
+.service-card p {
+  font-size: 0.88rem;
+  color: var(--white-muted);
+  line-height: 1.7;
+}
+
+/* ============================================================
+   FUTURE GOALS
+   ============================================================ */
+#goals {
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+#goals::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(201,169,110,0.04), transparent 70%);
+}
+.goals-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+.goals-quote {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--white);
+  line-height: 1.4;
+  position: relative;
+  padding-left: 2rem;
+}
+.goals-quote::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+}
+.goals-quote em { color: var(--gold-light); }
+.goals-list { display: flex; flex-direction: column; gap: 1.2rem; }
+.goal-item {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+  padding: 1.2rem;
+  background: var(--bg3);
+  border: 1px solid var(--border-subtle);
+  transition: border-color 0.3s;
+}
+.goal-item:hover { border-color: var(--border); }
+.goal-icon {
+  width: 36px; height: 36px;
+  border: 1px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--gold);
+  font-size: 0.85rem;
+}
+.goal-item p {
+  font-size: 0.9rem;
+  color: var(--white-dim);
+  line-height: 1.65;
+  margin-top: 0.4rem;
+}
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+#contact { background: var(--bg2); }
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  margin-top: 3rem;
+}
+.contact-info { display: flex; flex-direction: column; gap: 1.8rem; }
+.contact-item {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+.contact-icon {
+  width: 42px; height: 42px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+.contact-item h4 {
+  font-family: var(--font-title);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.3rem;
+}
+.contact-item a, .contact-item p {
+  font-size: 0.9rem;
+  color: var(--white-dim);
+  text-decoration: none;
+  transition: color 0.3s;
+  line-height: 1.5;
+}
+.contact-item a:hover { color: var(--gold); }
+.social-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.social-link {
+  width: 40px; height: 40px;
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white-muted);
+  text-decoration: none;
+  transition: var(--transition);
+  font-size: 0.85rem;
+}
+.social-link:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-3px);
+}
+
+/* Contact form */
+.contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-group label {
+  font-family: var(--font-title);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.form-group input,
+.form-group textarea {
+  background: var(--bg);
+  border: 1px solid var(--border-subtle);
+  color: var(--white);
+  padding: 0.85rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 300;
+  outline: none;
+  transition: border-color 0.3s;
+  resize: vertical;
+}
+.form-group input:focus,
+.form-group textarea:focus { border-color: var(--gold); }
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: var(--white-muted); }
+.form-group textarea { min-height: 120px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-message {
+  font-size: 0.85rem;
+  color: var(--gold);
+  margin-top: 0.5rem;
+  display: none;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  background: var(--bg);
+  border-top: 1px solid var(--border-subtle);
+  padding: 3rem 0;
+}
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.footer-brand {
+  font-family: var(--font-title);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+}
+.footer-copy {
+  font-size: 0.8rem;
+  color: var(--white-muted);
+  text-align: center;
+}
+.footer-copy a { color: var(--gold); text-decoration: none; }
+.footer-social { display: flex; gap: 0.8rem; }
+.footer-social a {
+  width: 34px; height: 34px;
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white-muted);
+  text-decoration: none;
+  font-size: 0.75rem;
+  transition: var(--transition);
+}
+.footer-social a:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ============================================================
+   BACK TO TOP
+   ============================================================ */
+#back-top {
+  position: fixed;
+  bottom: 2rem; right: 2rem;
+  width: 42px; height: 42px;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  opacity: 0;
+  pointer-events: none;
+  font-size: 0.8rem;
+  z-index: 100;
+}
+#back-top.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+#back-top:hover {
+  background: var(--gold);
+  color: var(--bg);
+  border-color: var(--gold);
+  transform: translateY(-3px);
+}
+
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .goals-layout { grid-template-columns: 1fr; gap: 3rem; }
+  .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .skills-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  section { padding: 5rem 0; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .services-grid { grid-template-columns: 1fr; }
+  .portfolio-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .footer-inner { flex-direction: column; align-items: center; text-align: center; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 1.2rem; }
+  .hero-cta { flex-direction: column; }
+  .btn { justify-content: center; }
+  .edu-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
+
+<!-- Navbar -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-brand">AMS Crafted Hub</a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#about" class="mobile-link">About</a>
+  <a href="#portfolio" class="mobile-link">Portfolio</a>
+  <a href="#services" class="mobile-link">Services</a>
+  <a href="#experience" class="mobile-link">Experience</a>
+  <a href="#education" class="mobile-link">Education</a>
+  <a href="#contact" class="mobile-link">Contact</a>
+</div>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section id="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+  </div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Creative Digital Brand</p>
+        <h1 class="hero-title">
+          AMS<br>
+          <span>Crafted Hub</span>
+        </h1>
+        <p class="hero-subtitle">Educational Media &nbsp; &nbsp; Storytelling &nbsp; &nbsp; Social Impact</p>
+        <p class="hero-name">Amina Muhammad Sani</p>
+        <p class="hero-intro">
+          A creative force at the intersection of education, storytelling, and digital media  ” building content that informs, inspires, and drives meaningful change across communities.
+        </p>
+        <div class="hero-cta">
+          <a href="#portfolio" class="btn btn-primary"><i class="fa-regular fa-eye"></i> View Portfolio</a>
+          <a href="#contact" class="btn btn-outline"><i class="fa-regular fa-envelope"></i> Contact</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-portrait">
+          <img src="ams.jpg" alt="Amina Muhammad Sani" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+            <div class="portrait-placeholder">
+              <p>Profile Photo</p>
+            </div>
+          </div>
+          <div class="portrait-deco"></div>
+          <div class="portrait-deco2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ABOUT
+     ============================================================ -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <span class="section-label">Who We Are</span>
+        <h2 class="section-title">Where Education<br>Meets <em>Storytelling</em></h2>
+        <div class="divider"></div>
+        <p>
+          <strong>AMS Crafted Hub</strong> is a creative digital media brand founded by <strong>Amina Muhammad Sani</strong>, focused on educational storytelling, youth engagement, and social impact communication.
+        </p>
+        <p>
+          Through engaging visuals, educational media, awareness campaigns, and digital storytelling, the brand creates meaningful content that connects with audiences and promotes positive change  ” one story at a time.
+        </p>
+        <p>
+          We believe that the most powerful communication is both beautiful and purposeful. Every piece of content we craft carries intention, depth, and a commitment to making knowledge accessible to all.
+        </p>
+      </div>
+      <div class="about-cards">
+        <div class="about-card reveal reveal-delay-1">
+          <div class="about-card-icon"><i class="fa-solid fa-bullseye"></i></div>
+          <h4>Mission</h4>
+          <p>To create impactful digital content that educates, empowers, and drives positive social change across African communities and beyond.</p>
+        </div>
+        <div class="about-card reveal reveal-delay-2">
+          <div class="about-card-icon"><i class="fa-regular fa-eye"></i></div>
+          <h4>Vision</h4>
+          <p>To become a leading voice in African educational media  ” a trusted platform where storytelling transforms lives and bridges knowledge gaps.</p>
+        </div>
+        <div class="about-card reveal reveal-delay-3">
+          <div class="about-card-icon"><i class="fa-solid fa-gem"></i></div>
+          <h4>Core Values</h4>
+          <p>Authenticity, creativity, social responsibility, and relentless pursuit of quality in every piece of content we produce and publish.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EDUCATION
+     ============================================================ -->
+<section id="education">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-label">Academic & Professional</span>
+      <h2 class="section-title">Education &amp;<br><em>Certifications</em></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card reveal reveal-delay-1">
+        <i class="fa-solid fa-graduation-cap edu-card-type"></i>
+        <span class="edu-card-year">Completed</span>
+        <h3>B.Sc. Geography</h3>
+        <p>Undergraduate degree providing a strong foundation in spatial analysis, environmental studies, and human-environment interaction.</p>
+      </div>
+      <div class="edu-card reveal reveal-delay-2">
+        <i class="fa-solid fa-flask edu-card-type"></i>
+        <span class="edu-card-year">In View</span>
+        <h3>M.Sc. Geology</h3>
+        <p>Advanced postgraduate study deepening expertise in Earth sciences, research methodology, and scientific communication.</p>
+      </div>
+      <div class="edu-card reveal reveal-delay-3">
+        <i class="fa-solid fa-shield-halved edu-card-type"></i>
+        <span class="edu-card-year">Certified</span>
+        <h3>Cybersecurity</h3>
+        <p>Professional certification in cybersecurity principles, digital safety, threat awareness, and online protection strategies.</p>
+      </div>
+      <div class="edu-card reveal reveal-delay-1">
+        <i class="fa-solid fa-certificate edu-card-type"></i>
+        <span class="edu-card-year">Certified</span>
+        <h3>ISC2 Certification</h3>
+        <p>Internationally recognized security credential demonstrating commitment to information security and cyber resilience.</p>
+      </div>
+      <div class="edu-card reveal reveal-delay-2">
+        <i class="fa-solid fa-code edu-card-type"></i>
+        <span class="edu-card-year">Certified</span>
+        <h3>Scripting &amp; UI/UX</h3>
+        <p>Certifications in scripting fundamentals and user interface/experience design for digital product development.</p>
+      </div>
+      <div class="edu-card reveal reveal-delay-3">
+        <i class="fa-solid fa-palette edu-card-type"></i>
+        <span class="edu-card-year">Certified</span>
+        <h3>Art &amp; Business Entrepreneurship</h3>
+        <p>Comprehensive training in creative entrepreneurship, brand building, content creation, and digital media business.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SKILLS
+     ============================================================ -->
+<section id="skills">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-label">Capabilities</span>
+      <h2 class="section-title">Skills &amp;<br><em>Expertise</em></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="skills-layout">
+      <div class="reveal reveal-delay-1">
+        <p class="skills-group-title">Core Skills</p>
+        <div class="skill-chips">
+          <div class="skill-chip">Content Creation</div>
+          <div class="skill-chip">Video Editing</div>
+          <div class="skill-chip">Graphic Design</div>
+          <div class="skill-chip">Storytelling</div>
+          <div class="skill-chip">Social Media Management</div>
+          <div class="skill-chip">Educational Media Production</div>
+          <div class="skill-chip">Brand Development</div>
+          <div class="skill-chip">Cybersecurity Awareness</div>
+          <div class="skill-chip">Scripting Fundamentals</div>
+          <div class="skill-chip">Digital Communication</div>
+          <div class="skill-chip">Campaign Strategy</div>
+          <div class="skill-chip">Youth Engagement</div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <p class="skills-group-title">About the Brand</p>
+        <p style="font-size:0.95rem; color: var(--white-muted); line-height:1.85; margin-bottom:1.5rem;">
+          AMS Crafted Hub brings together technical skill, creative vision, and a deep commitment to community impact. Every project is approached with editorial precision and authentic storytelling intent.
+        </p>
+        <p style="font-size:0.95rem; color: var(--white-muted); line-height:1.85;">
+          From awareness campaigns to educational series, the brand's work is defined by clarity, purpose, and lasting resonance with its audience.
+        </p>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top:3rem;">
+      <p class="skills-group-title" style="margin-bottom:1.5rem;">Tools &amp; Software</p>
+      <div class="tools-grid">
+        <div class="tool-card">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>Canva</span>
+        </div>
+        <div class="tool-card">
+          <i class="fa-solid fa-film"></i>
+          <span>CapCut</span>
+        </div>
+        <div class="tool-card">
+          <i class="fa-brands fa-adobe"></i>
+          <span>Photoshop</span>
+        </div>
+        <div class="tool-card">
+          <i class="fa-solid fa-pen-nib"></i>
+          <span>Figma</span>
+        </div>
+        <div class="tool-card">
+          <i class="fa-solid fa-video"></i>
+          <span>Premiere Pro</span>
+        </div>
+        <div class="tool-card">
+          <i class="fa-brands fa-instagram"></i>
+          <span>Instagram</span>
+        </div>
+        <div class="tool-card">
+          <i class="fa-brands fa-tiktok"></i>
+          <span>TikTok</span>
+        </div>
+        <div class="tool-card">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Branding</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PORTFOLIO
+     ============================================================ -->
+<section id="portfolio">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-label">Selected Work</span>
+      <h2 class="section-title">Portfolio &amp;<br><em>Projects</em></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="portfolio-filters reveal">
+      <button class="filter-btn active" data-filter="all">All Work</button>
+      <button class="filter-btn" data-filter="educational">Educational Content</button>
+      <button class="filter-btn" data-filter="awareness">Awareness Campaigns</button>
+      <button class="filter-btn" data-filter="video">Video Editing</button>
+      <button class="filter-btn" data-filter="graphics">Graphics Design</button>
+      <button class="filter-btn" data-filter="social">Social Media</button>
+      <button class="filter-btn" data-filter="storytelling">Storytelling</button>
+    </div>
+    <div class="portfolio-grid" id="portfolio-grid">
+      <!-- Educational Content -->
+      <div class="portfolio-card" data-category="educational">
+        <div class="portfolio-thumb">
+          <div class="portfolio-thumb-inner"><i class="fa-solid fa-book-open"></i></div>
+          <div class="portfolio-overlay"><span>View Project</span></div>
+        </div>
+        <div class="portfolio-info">
+          <span class="portfolio-tag">Educational Content</span>
+          <h3>Youth Science Series</h3>
+          <p>An engaging multi-part educational series designed to make science accessible and exciting for young audiences.</p>
+        </div>
+      </div>
+      <div class="portfolio-card" data-category="educational">
+        <div class="portfolio-thumb">
+          <div class="portfolio-thumb-inner"><i class="fa-solid fa-chalkboard-user"></i></div>
+          <div class="portfolio-overlay"><span>View Project</span></div>
+        </div>
+        <div class="portfolio-info">
+          <span class="portfolio-tag">Educational Content</span>
+          <h3>Digital Literacy Guide</h3>
+          <p>Comprehensive digital safety and literacy content crafted for students and youth communities.</p>
+        </div>
+      </div>
+      <!-- Awareness Campaigns -->
+      <div class="portfolio-card" data-category="awareness">
+        <div class="portfolio-thumb">
+          <div class="portfolio-thumb-inner"><i class="fa-solid fa-bullhorn"></i></div>
+          <div class="portfolio-overlay"><span>View Project</span></div>
+        </div>
+        <div class="portfolio-info">
+          <span class="portfolio-tag">Awareness Campaign</span>
+          <h3>Cyber Safety Drive</h3>
+          <p>A community-focused campaign raising awareness around online safety, scams, and digital well-being.</p>
+        </div>
+      </div>
+      <div class="portfolio-card" data-category="awareness">
+        <div class="portfolio-thumb">
+          <div class="portfolio-thumb-inner"><i class="fa-solid fa-heart-pulse"></i></div>
+          <div class="portfolio-overlay"><span>View Project</span></div>
+        </div>
+        <div class="portfolio-info">
+          <span class="portfolio-tag">Awareness Campaign</span>
+          <h3>Health &amp; Wellness Initiative</h3>
+          <p>Social impact campaign promoting mental health awareness and wellness practices among Nigerian youth.</p>
+        </div>
+      </div>
+      <!-- Video Editing -->
+      <div class="portfolio-card" data-category="video">
+        <div class="portfolio-thumb">
+          <div class="portfolio-thumb-inner"><i class="fa-solid fa-clapperboard"></i></div>
+          <div class="portfolio-overlay"><span>View Project</span></div>
+        </div>
+        <div class="portfolio-info">
+          <span class="portfolio-tag">Video Editing</span>
+          <h3>Brand Story Reel</h3>
+          <p>Cinematic short-form brand video edited for TikTok and Instagram Reels with dynamic visual storytelling.</p>
+        </div>
+      </div>
+      <div class="portfolio-card" data-category="video">
+        <div class="portfolio-thumb">
+          <div class="portfolio-thumb-inner"><i class="fa-solid fa-play-circle"></i></div>
+          <div class="portfolio-overlay"><span>View Project</span></div>
+        </div>
+        <div class="portfolio-info">
+          <span class="portfolio-tag">Video Editing</span>
+          <h3>Documentary Short</h3>
+          <p>Edited short documentary capturing community impact stories with emotional depth and visual clarity.</p>
+        </div>
+      </div>
+      <!-- Graphics Design -->
+      <div class="portfolio-card" data-category="graphics">
+        <div class="portfolio-thumb">
+          <div class="portfolio-thumb-inner"><i class="fa-solid fa-pen-ruler"></i></div>
+          <div class="portfolio-overlay"><span>View Project</span></div>
+        </div>
+        <div class="portfolio-info">
+          <span class="portfolio-tag">Graphics Design</span>
+          <h3>Brand Identity System</h3>
+          <p>Complete visual identity including logo design, color palette, typography, and brand guidelines.</p>
+        </div>
+      </div>
+      <div class="portfolio-card" data-category="graphics">
+        <div class="portfolio-thumb">
+          <div class="portfolio-thumb-inner"><i class="fa-solid fa-swatchbook"></i></div>
+          <div class="portfolio-overlay"><span>View Project</span></div>
+        </div>
+        <div class="portfolio-info">
+          <span class="portfolio-tag">Graphics Design</span>
+          <h3>Infographic Series</h3>
+          <p>Bold, informative infographic designs translating complex data into clear, engaging visual content.</p>
+        </div>
+      </div>
+      <!-- Social Media -->
+      <div class="portfolio-card" data-category="social">
+        <div class="portfolio-thumb">
+          <div class="portfolio-thumb-inner"><i class="fa-brands fa-instagram"></i></div>
+          <div class="portfolio-overlay"><span>View Project</span></div>
+        </div>
+        <div class="portfolio-info">
+          <span class="portfolio-tag">Social Media Content</span>
+          <h3>Instagram Growth Campaign</h3>
+          <p>Strategic content series that drove significant community growth through consistent, resonant posting.</p>
+        </div>
+      </div>
+      <div class="portfolio-card" data-category="social">
+        <div class="portfolio-thumb">
+          <div class="portfolio-thumb-inner"><i class="fa-brands fa-tiktok"></i></div>
+          <div class="portfolio-overlay"><span>View Project</span></div>
+        </div>
+        <div class="portfolio-info">
+          <span class="portfolio-tag">Social Media Content</span>
+          <h3>TikTok Content Strategy</h3>
+          <p>Short-form video content strategy and production for maximum reach and authentic audience engagement.</p>
+        </div>
+      </div>
+      <!-- Storytelling -->
+      <div class="portfolio-card" data-category="storytelling">
+        <div class="portfolio-thumb">
+          <div class="portfolio-thumb-inner"><i class="fa-solid fa-feather-pointed"></i></div>
+          <div class="portfolio-overlay"><span>View Project</span></div>
+        </div>
+        <div class="portfolio-info">
+          <span class="portfolio-tag">Storytelling Project</span>
+          <h3>Community Voices Series</h3>
+          <p>A multimedia storytelling project amplifying underrepresented voices within Nigerian communities.</p>
+        </div>
+      </div>
+      <div class="portfolio-card" data-category="storytelling">
+        <div class="portfolio-thumb">
+          <div class="portfolio-thumb-inner"><i class="fa-solid fa-scroll"></i></div>
+          <div class="portfolio-overlay"><span>View Project</span></div>
+        </div>
+        <div class="portfolio-info">
+          <span class="portfolio-tag">Storytelling Project</span>
+          <h3>Impact Narratives</h3>
+          <p>Written and visual narratives documenting grassroots impact stories for NGO and community partners.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EXPERIENCE
+     ============================================================ -->
+<section id="experience">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-label">Professional Journey</span>
+      <h2 class="section-title">Experience &amp;<br><em>Impact</em></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="exp-timeline">
+      <div class="exp-item reveal">
+        <span class="exp-date">Current</span>
+        <h3>Community Lead</h3>
+        <p class="exp-org">3MTT  ” Three Million Technical Talent Programme</p>
+        <p>
+          Serving as a community lead within Nigeria's flagship digital skills programme, facilitating learning, mentorship, and digital literacy development for emerging tech talent across the country.
+        </p>
+      </div>
+      <div class="exp-item reveal reveal-delay-1">
+        <span class="exp-date">Alumni</span>
+        <h3>TAFTA Graduate</h3>
+        <p class="exp-org">Technical &amp; Further Training Academy</p>
+        <p>
+          Completed comprehensive vocational and digital skills training, gaining certifications and hands-on expertise in content creation, digital media, and creative entrepreneurship.
+        </p>
+      </div>
+      <div class="exp-item reveal reveal-delay-2">
+        <span class="exp-date">Ongoing</span>
+        <h3>Community Impact Initiatives</h3>
+        <p class="exp-org">AMS Crafted Hub</p>
+        <p>
+          Leading and participating in various grassroots initiatives focused on digital literacy, youth empowerment, and educational media campaigns that serve underserved communities.
+        </p>
+      </div>
+      <div class="exp-item reveal reveal-delay-3">
+        <span class="exp-date">Active</span>
+        <h3>Youth Engagement Activities</h3>
+        <p class="exp-org">Community &amp; Digital Platforms</p>
+        <p>
+          Actively engaging youth through workshops, social media campaigns, and storytelling projects that inspire critical thinking, creativity, and civic participation.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SERVICES
+     ============================================================ -->
+<section id="services">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-label">What We Offer</span>
+      <h2 class="section-title">Services &amp;<br><em>Offerings</em></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-num">01</div>
+        <i class="fa-solid fa-book-open-reader"></i>
+        <h3>Educational Content Development</h3>
+        <p>Curriculum-aligned educational media, explainer content, and learning resources crafted for clarity, engagement, and maximum knowledge retention.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-num">02</div>
+        <i class="fa-solid fa-mobile-screen-button"></i>
+        <h3>Social Media Content Creation</h3>
+        <p>Strategy-driven, visually compelling content for Instagram, TikTok, and Facebook  ” built to grow audiences and build community.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-num">03</div>
+        <i class="fa-solid fa-paintbrush"></i>
+        <h3>Graphic Design &amp; Branding</h3>
+        <p>Distinctive visual identities, social graphics, infographics, and brand materials that communicate your values with precision and elegance.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-num">04</div>
+        <i class="fa-solid fa-film"></i>
+        <h3>Video Editing</h3>
+        <p>Professional post-production for short-form reels, documentary content, brand videos, and educational series with polished, cinematic results.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-num">05</div>
+        <i class="fa-solid fa-tower-broadcast"></i>
+        <h3>Digital Communication</h3>
+        <p>Strategic messaging, campaign development, and digital communication design for NGOs, community organisations, and mission-driven brands.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-num">06</div>
+        <i class="fa-solid fa-feather-pointed"></i>
+        <h3>Creative Storytelling</h3>
+        <p>Impact narratives, community stories, and brand storytelling that connect deeply, build trust, and leave a lasting impression on audiences.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FUTURE GOALS
+     ============================================================ -->
+<section id="goals">
+  <div class="container">
+    <div class="goals-layout">
+      <div class="reveal">
+        <span class="section-label">Looking Ahead</span>
+        <h2 class="section-title">Future<br><em>Vision</em></h2>
+        <div class="divider"></div>
+        <blockquote class="goals-quote">
+          "To build a platform where <em>African stories</em> are told beautifully, shared widely, and remembered forever."
+        </blockquote>
+      </div>
+      <div class="goals-list reveal reveal-delay-2">
+        <div class="goal-item">
+          <div class="goal-icon"><i class="fa-solid fa-globe-africa"></i></div>
+          <p>Expand AMS Crafted Hub into a full-scale pan-African educational media platform serving millions of learners across the continent.</p>
+        </div>
+        <div class="goal-item">
+          <div class="goal-icon"><i class="fa-solid fa-users-gear"></i></div>
+          <p>Build a creative team of educators, designers, and storytellers dedicated to producing world-class African educational content.</p>
+        </div>
+        <div class="goal-item">
+          <div class="goal-icon"><i class="fa-solid fa-award"></i></div>
+          <p>Complete M.Sc. in Geology while deepening expertise in science communication and environmental education content.</p>
+        </div>
+        <div class="goal-item">
+          <div class="goal-icon"><i class="fa-solid fa-handshake"></i></div>
+          <p>Establish strategic partnerships with NGOs, government agencies, and educational institutions to scale social impact initiatives.</p>
+        </div>
+        <div class="goal-item">
+          <div class="goal-icon"><i class="fa-solid fa-lightbulb"></i></div>
+          <p>Launch a mentorship programme connecting aspiring African content creators with opportunities, training, and global networks.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT
+     ============================================================ -->
+<section id="contact">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-label">Get In Touch</span>
+      <h2 class="section-title">Let's Create<br><em>Together</em></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <p style="font-size:0.95rem; color:var(--white-muted); line-height:1.85; margin-bottom:1.5rem;">
+          Ready to collaborate on your next educational content project, awareness campaign, or creative storytelling initiative? I'd love to hear from you.
+        </p>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fa-regular fa-envelope"></i></div>
+          <div>
+            <h4>Email</h4>
+            <a href="mailto:amscraftedhub@gmail.com">amscraftedhub@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+          <div>
+            <h4>Phone</h4>
+            <a href="tel:+2347071957196">+2347071957196</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
+          <div>
+            <h4>WhatsApp</h4>
+            <a href="https://wa.me/2349165888991" target="_blank" rel="noopener">+234 916 588 8991</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+          <div>
+            <h4>Location</h4>
+            <p>Nigeria, West Africa</p>
+          </div>
+        </div>
+        <div class="social-links">
+          <a href="https://www.linkedin.com/in/amina-sani-muhammad-b84051367" target="_blank" rel="noopener" class="social-link" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="https://www.tiktok.com/@ams_crafted_hub" target="_blank" rel="noopener" class="social-link" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="https://www.facebook.com/share/1DWSLdeRV3/" target="_blank" rel="noopener" class="social-link" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/meenerh_msg" target="_blank" rel="noopener" class="social-link" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <form class="contact-form" id="contact-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fname">First Name</label>
+              <input type="text" id="fname" name="fname" placeholder="Your first name" required>
+            </div>
+            <div class="form-group">
+              <label for="lname">Last Name</label>
+              <input type="text" id="lname" name="lname" placeholder="Your last name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="your@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="What is this about?">
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Tell me about your project or idea..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-regular fa-paper-plane"></i> Send Message
+          </button>
+          <p class="form-message" id="form-message">Thank you! Your message has been received. I'll be in touch soon.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <span class="footer-brand">AMS Crafted Hub</span>
+      <p class="footer-copy">
+        &copy; 2025 AMS Crafted Hub. Crafted by <a href="#">Amina Muhammad Sani</a>. All rights reserved.
+      </p>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/in/amina-sani-muhammad-b84051367" target="_blank" rel="noopener" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="https://www.tiktok.com/@ams_crafted_hub" target="_blank" rel="noopener" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="https://www.facebook.com/share/1DWSLdeRV3/" target="_blank" rel="noopener" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/meenerh_msg" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Back to Top -->
+<button id="back-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+/* ---- Scroll Progress ---- */
+const progressBar = document.getElementById('scroll-progress');
+window.addEventListener('scroll', () => {
+  const scrollTop = document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  progressBar.style.width = ((scrollTop / docHeight) * 100) + '%';
+});
+
+/* ---- Navbar scroll behaviour ---- */
+const navbar = document.getElementById('navbar');
+const navLinks = document.querySelectorAll('.nav-links a');
+const sections = document.querySelectorAll('section[id]');
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 60) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+
+  // Active nav link
+  let current = '';
+  sections.forEach(section => {
+    if (window.scrollY >= section.offsetTop - 140) {
+      current = section.id;
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('active');
+    }
+  });
+
+  // Back to top
+  const backTop = document.getElementById('back-top');
+  if (window.scrollY > 400) {
+    backTop.classList.add('visible');
+  } else {
+    backTop.classList.remove('visible');
+  }
+});
+
+/* ---- Hamburger / Mobile Menu ---- */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+
+document.querySelectorAll('.mobile-link').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+/* ---- Scroll Reveal ---- */
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+revealEls.forEach(el => revealObserver.observe(el));
+
+/* ---- Portfolio Filtering ---- */
+const filterBtns = document.querySelectorAll('.filter-btn');
+const portfolioCards = document.querySelectorAll('.portfolio-card');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const filter = btn.dataset.filter;
+    portfolioCards.forEach(card => {
+      if (filter === 'all' || card.dataset.category === filter) {
+        card.classList.remove('hidden');
+        card.style.animation = 'fadeUp 0.4s ease forwards';
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  });
+});
+
+/* ---- Back to Top ---- */
+document.getElementById('back-top').addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* ---- Contact Form ---- */
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const msg = document.getElementById('form-message');
+  msg.style.display = 'block';
+  this.reset();
+  setTimeout(() => { msg.style.display = 'none'; }, 5000);
+});
+
+/* ---- Smooth scroll for all anchor links ---- */
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>
